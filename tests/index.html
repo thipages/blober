@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blober</title>
+    <style>
+        .wrap {
+            overflow-wrap: anywhere;
+        }
+        .layout {
+            display: grid;
+            grid-template-areas: "a b" "c d";
+            grid-template-columns:auto 1fr;
+            grid-gap: 1em;
+        }
+    </style>
+</head>
+<body>
+<input id="file_input" type="file"/>
+<hr />
+<div class="layout">
+    <div style="grid-area:a;">header</div>
+    <div id="h" style="grid-area:b;">-</div>
+    
+    <div style="grid-area:c;">body</div>
+    <div id="b" style="grid-area:d;width:90%" class="wrap">-</div>
+</div>
+
+<script type="module">
+    import blober from '../esm/index.js';
+    function truncate(str, n){
+        return (str.length > n) ? str.substr(0, n-1) : str;
+    }
+    file_input.addEventListener(
+        'change',
+        ()=>blober(file_input.files[0],
+            ({header,body})=>{
+                h.innerText=header;
+                b.innerText=truncate(body,1000);
+            }
+    ));
+</script>
+</body>
+</html>
